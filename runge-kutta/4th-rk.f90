@@ -8,19 +8,20 @@ program runge_kutta_4th
   h  = 0.1d0
   x  = x0
   y  = y0
+  open(100, file='out1.dat')
 
-  write(6,100) x,y,g(x)
-  do i = 1, 1000
+  write(100,200) x,y,g(x)
+  do i = 1, 100
      k1 = h*f(x,y)
-     k2 = h*f(x+h/2.0d0,y+k1/2.0d0)
-     k3 = h*f(x+h/2.0d0,y+k2/2.0d0)
-     k4 = h*f(x+h,y+k3)
+     k2 = h*f(x+h/2.0d0,y+h*k1/2.0d0)
+     k3 = h*f(x+h/2.0d0,y+h*k2/2.0d0)
+     k4 = h*f(x+h,y+h*k3)
      x  = x + h
      y  = y + (k1+2.0d0*k2 + 2.0d0*k3 + k4)/6.0d0
-     write(6,*) x,y,g(x)
+     write(100,200) x,y,g(x)
   end do
 
-100 format (f10.7, 1x, f10.7, 1x, f10.7)
+200 format (7e12.4)
 end program runge_kutta_4th
 
 function f(x,y)
